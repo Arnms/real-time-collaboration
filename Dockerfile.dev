@@ -1,0 +1,26 @@
+FROM node:20-alpine
+
+# 필수 패키지 설치
+RUN apk add --no-cache bash
+
+WORKDIR /
+
+# 패키지 파일 복사 및 의존성 설치
+COPY package*.json ./
+RUN npm ci
+
+# Nest CLI 글로벌 설치
+RUN npm install -g @nestjs/cli
+
+# 소스코드 복사
+COPY . .
+
+# 포트 노출
+EXPOSE 3001
+
+# 헬스체크 추가
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3001/api/health || exit 1
+
+# 개발 모드로 실행
+CMD ["npm", "run", "start:dev"]
