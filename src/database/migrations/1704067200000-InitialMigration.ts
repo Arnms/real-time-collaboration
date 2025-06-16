@@ -169,7 +169,7 @@ export class InitialMigration1704067200000 implements MigrationInterface {
       FOREIGN KEY ("documentId") REFERENCES "documents"("id") ON DELETE CASCADE
     `);
 
-    // 인덱스 생성
+    // 인덱스 생성 (documentVersion으로 수정)
     await queryRunner.query(
       `CREATE INDEX "IDX_operations_document_version" ON "operations" ("documentId", "documentVersion")`,
     );

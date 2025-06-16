@@ -12,7 +12,7 @@ import { User } from '../../users/entities/user.entity';
 import { Document } from '../../documents/entities/document.entity';
 
 @Entity('operations')
-@Index(['documentId', 'version']) // 문서별 버전 조회 최적화
+@Index(['documentId', 'documentVersion']) // documentVersion으로 수정
 export class Operation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
