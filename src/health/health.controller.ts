@@ -1,10 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Public } from '../shared/decorators/public.decorator';
 
 @ApiTags('health')
 @Controller('health')
 export class HealthController {
   @Get()
+  @Public()
   @ApiOperation({
     summary: '헬스체크',
     description: '애플리케이션 상태를 확인합니다.',
