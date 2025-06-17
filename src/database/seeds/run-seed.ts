@@ -1,16 +1,18 @@
 import { AppDataSource } from '../data-source';
 import { seedUsers } from './user.seed';
+import { seedDocuments } from './document.seed';
 
 async function runSeeds() {
   try {
-    console.log('🌱 Starting database seeding...');
+    console.log('Starting database seeding...');
 
     // 데이터베이스 연결
     await AppDataSource.initialize();
-    console.log('📦 Database connected');
+    console.log('Database connected');
 
     // 시드 실행
     await seedUsers(AppDataSource);
+    await seedDocuments(AppDataSource);
 
     console.log('Database seeding completed!');
   } catch (error) {

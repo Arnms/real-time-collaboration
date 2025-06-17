@@ -31,7 +31,7 @@ import { envValidationSchema } from './config/env-validation.schema';
       load: [appConfig, databaseConfig, redisConfig, jwtConfig],
       validationSchema: envValidationSchema,
       validationOptions: {
-        allowUnknown: false, // 정의되지 않은 환경변수 허용 안함
+        allowUnknown: true, // 수정: 정의되지 않은 환경변수 허용
         abortEarly: true, // 첫 번째 에러에서 중단
       },
     }),

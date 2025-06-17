@@ -1,40 +1,27 @@
 import { DataSource } from 'typeorm';
-import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
-import { User } from '../users/entities/user.entity';
-import { Document } from '../documents/entities/document.entity';
-import { DocumentPermission } from '../documents/entities/document-permission.entity';
-import { Room } from '../rooms/entities/room.entity';
-import { RoomParticipant } from '../rooms/entities/room-participant.entity';
-import { Operation } from '../collaboration/entities/operation.entity';
 
+// 환경변수 로드
 config();
-
-const configService = new ConfigService();
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: configService.get('DB_HOST') || 'localhost',
-  port: parseInt(configService.get('DB_PORT')!) || 5432,
-  username: configService.get('DB_USERNAME') || 'postgres',
-  password: configService.get('DB_PASSWORD') || 'password',
-  database: configService.get('DB_DATABASE') || 'collaboration_db',
-  synchronize: false,
-  logging: configService.get('NODE_ENV') === 'development',
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT || '5432'),
+  username: process.env.DB_USERNAME || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  database: process.env.DB_DATABASE || 'collaboration_db',
+
+  // CLI에서만 사용하는 최소한의 설정
   entities: [
-    User,
-    Document,
-    DocumentPermission,
-    Room,
-    RoomParticipant,
-    Operation,
+    'src/users/entities/*.entity.ts',
+    'src/documents/entities/*.entity.ts',
+    'src/rooms/entities/*.entity.ts',
+    'src/collaboration/entities/*.entity.ts',
   ],
-  migrations: ['src/database/migrations/*{.ts,.js}'],
-  subscribers: ['src/**/*.subscriber{.ts,.js}'],
-  // CLI 실행 시에도 dist 폴더 사용 가능하도록
-  ...(process.env.NODE_ENV === 'production' && {
-    entities: ['dist/**/*.entity{.ts,.js}'],
-    migrations: ['dist/database/migrations/*{.ts,.js}'],
-    subscribers: ['dist/**/*.subscriber{.ts,.js}'],
-  }),
+
+  migrations: ['src/database/migrations/*.ts'],
+
+  synchronize: false,
+  logging: false,
 });

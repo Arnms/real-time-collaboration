@@ -1,4 +1,3 @@
-// src/config/configuration.ts
 import { registerAs } from '@nestjs/config';
 
 export interface AppConfig {
