@@ -6,6 +6,7 @@ import {
   IsObject,
   MinLength,
   MaxLength,
+  IsNumber,
 } from 'class-validator';
 
 export class CreateDocumentDto {
@@ -47,6 +48,15 @@ export class CreateDocumentDto {
     tags?: string[];
     [key: string]: any;
   };
+
+  @ApiPropertyOptional({
+    description: '문서 버전',
+    example: 1,
+    default: 1,
+  })
+  @IsOptional()
+  @IsNumber()
+  version: number;
 
   @ApiPropertyOptional({
     description: '공개 문서 여부',
